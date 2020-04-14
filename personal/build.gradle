@@ -1,0 +1,74 @@
+if (isRelease){ // 集成化 不使用applicationId
+    apply plugin: 'com.android.library'
+} else { // 组件化 使用applicationId
+    apply plugin: 'com.android.application'
+}
+
+def androidId = rootProject.ext.androidId
+def appId = rootProject.ext.appId
+def url = rootProject.ext.url
+def support = rootProject.ext.dependencies
+
+
+android {
+    compileSdkVersion androidId.compileSdkVersion
+    buildToolsVersion androidId.buildToolsVersion
+
+    defaultConfig {
+        if (!isRelease) { // 集成化 有且使用applicationId
+            applicationId appId.personal
+        }
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+
+        // 这个方法接收三个非空的参数 第一个：确定值的类型 第二个：指定key的名字 第三个：传值：（必须是String）
+        // 为什么需要定义这个？因为src代码中有可能需要用到跨模块交互 如果是组件化模块显然不行 集成化可以
+        // 注意：不能在android根节点 只能在defaultConfig或 buildTypes 节点下
+        buildConfigField("Boolean", "isRelease", String.valueOf(isRelease))
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // 配置资源路径 方便测试环境 打包不集成到正式环境
+    sourceSets {
+        main {
+            if (!isRelease) {
+                // 如果是组件化模式 需要单独运行时
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            } else {
+                // 集成化开发模式 整个项目打包apk
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java {
+                    // release 时 debug 目录下文件不需要合并到主工程
+                    exclude '**/debug/**'
+                }
+            }
+
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // 公共基础库
+    implementation project(":common")
+    // 第三方依赖
+    support.each {k,v -> implementation v }
+
+}

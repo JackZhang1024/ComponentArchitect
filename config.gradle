@@ -4,6 +4,8 @@ ext {
     username = "lucky"
 
     // 生产/开发环境 （正式/测试）
+    // isRelease true  集成化（各个模块不能独立运行的）
+    // isRelease false 组件化（各个模块都是可以独立运行的）
     isRelease = true
     // 建立Map存储 对象名 key都可以自定义 groovy糖果语法 非常灵活
     androidId = [
@@ -15,9 +17,13 @@ ext {
             versionName: "1.0",
     ]
 
+    // 注意 applicationId 必须和Manifest文件中的package一致 否则出问题
     appId = [
             app: "com.luckyboy.componentarchitect",
-            library: "com.luckyboy.library"
+            library: "com.luckyboy.library",
+            order:   "com.luckyboy.module.order",
+            product: "com.luckyboy.module.product",
+            personal:"com.luckyboy.module.personal"
     ]
 
     // 生产/开发环境URL
