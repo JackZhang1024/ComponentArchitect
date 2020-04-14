@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.luckyboy.common.RouterManager;
 import com.luckyboy.common.base.BaseActivity;
 
 public class Personal_MainActivity extends BaseActivity {
@@ -18,7 +19,11 @@ public class Personal_MainActivity extends BaseActivity {
 
     public void goToProduct(View view) {
         try {
-            Class clazz = Class.forName("com.luckyboy.module.product.Product_MainActivity");
+//            Class clazz = Class.forName("com.luckyboy.module.product.Product_MainActivity");
+//            Intent intent = new Intent(this, clazz);
+//            startActivity(intent);
+
+            Class clazz = RouterManager.getInstance().loadClass("product", "com.luckyboy.module.product.Product_MainActivity");
             Intent intent = new Intent(this, clazz);
             startActivity(intent);
         } catch (Exception e) {
@@ -28,7 +33,11 @@ public class Personal_MainActivity extends BaseActivity {
 
     public void goToHome(View view) {
         try {
-            Class clazz = Class.forName("com.luckyboy.componentarchitect.MainActivity");
+//            Class clazz = Class.forName("com.luckyboy.componentarchitect.MainActivity");
+//            Intent intent = new Intent(this, clazz);
+//            startActivity(intent);
+
+            Class clazz = RouterManager.getInstance().loadClass("app", "com.luckyboy.componentarchitect.MainActivity");
             Intent intent = new Intent(this, clazz);
             startActivity(intent);
         } catch (Exception e) {
