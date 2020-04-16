@@ -12,6 +12,9 @@ import java.util.Map;
  *
  * key: "/app/MainActivity" , value MainActivity 信息封装到Router对象中
  *
+ * "/app/MainActivity"
+ * "/app/MainDetailActivity"
+ * "/app/SecondActivity"
  * */
 public interface ARouterLoadPath {
 

@@ -6,6 +6,7 @@ import com.luckyboy.compiler.utils.EmptyUtils;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeName;
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
@@ -29,6 +30,9 @@ public class ParameterFactory {
     // type(类信息)工具类
     private Types typeUtils;
 
+    // 获取元素接口信息（生成类文件需要的接口实现类）
+    private TypeMirror callMirror;
+
     // 类名： 如： MainActivity
     private ClassName className;
 
@@ -43,6 +47,9 @@ public class ParameterFactory {
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(builder.parameterSpec);
+
+        callMirror = builder.elementUtils.getTypeElement(Constants.CALL).asType();
+
     }
 
     public void addFirstStatement() {
@@ -87,6 +94,14 @@ public class ParameterFactory {
             // t.s = t.getStringExtra("S");
             if (typeMirror.toString().equalsIgnoreCase(Constants.STRING)) {
                 methodContent += "getStringExtra($S)";
+            } else if (typeUtils.isSubtype(typeMirror, callMirror)) {
+                // t.iUser = (IUserImpl)RouterManager.getInstance().build("/order/getUserInfo").navigation(t)
+                methodContent = "t." + filedName + " = ($T) $T.getInstance().build($S).navigation(t)";
+                methodBuilder.addStatement(methodContent, TypeName.get(typeMirror),
+                        ClassName.get(Constants.PACKAGE_PREFIX, Constants.ROUTER_MANAGER),
+                        annotationValue
+                );
+                return;
             }
         }
         if (methodContent.endsWith(")")) {
@@ -153,7 +168,6 @@ public class ParameterFactory {
             }
             return new ParameterFactory(this);
         }
-
 
     }
 

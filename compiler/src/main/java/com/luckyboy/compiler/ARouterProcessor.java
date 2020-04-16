@@ -125,8 +125,10 @@ public class ARouterProcessor extends AbstractProcessor {
     private void parseElements(Set<? extends Element> elements) throws Exception {
         // 通过Element 工具类 获取Activity 类型
         TypeElement activityType = elementUtils.getTypeElement(Constants.ACTIVITY);
+        TypeElement callType = elementUtils.getTypeElement(Constants.CALL);
         // 获取Mirror 显示类的信息
         TypeMirror activityMirror = activityType.asType();
+        TypeMirror callMirror = callType.asType();
 
         // 获取每个元素的类信息
         for (Element element : elements) {
@@ -146,6 +148,8 @@ public class ARouterProcessor extends AbstractProcessor {
             // 高级判断 说明ARouter注解 只能被用到类上，并且是规定的Activity
             if (typeUtils.isSubtype(elementMirror, activityMirror)) {
                 bean.setType(RouterBean.Type.ACTIVITY);
+            } else if (typeUtils.isSubtype(elementMirror, callMirror)) {
+                bean.setType(RouterBean.Type.CALL);
             } else {
                 throw new RuntimeException("@ARouter注解目前仅限用于Activity之上");
             }
@@ -273,7 +277,7 @@ public class ARouterProcessor extends AbstractProcessor {
                 Constants.GROUP_PARAMETER_NAME,
                 HashMap.class
         );
-        messager.printMessage(Diagnostic.Kind.WARNING, " map.size() "+tempGroupMap.size());
+        messager.printMessage(Diagnostic.Kind.WARNING, " map.size() " + tempGroupMap.size());
         // 方法内容配置
         for (Map.Entry<String, String> entry : tempGroupMap.entrySet()) {
             //groupMap.put("order", ARouter$$Path$$order.class);
@@ -356,7 +360,6 @@ public class ARouterProcessor extends AbstractProcessor {
         }
         return true;
     }
-
 
 
 }

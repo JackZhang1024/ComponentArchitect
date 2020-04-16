@@ -20,8 +20,14 @@ public class Constants {
     // Activity 类全名
     public static final String ACTIVITY = "android.app.Activity";
 
+
     // 包名前缀封装
     public static final String PACKAGE_PREFIX = "com.luckyboy.arouter_api";
+
+    public static final String ROUTER_MANAGER = "RouterManager";
+
+    // 跨模块业务 回调接口
+    public static final String CALL = PACKAGE_PREFIX+ ".core.Call";
 
     // 路由组Group 加载接口
     public static final String AROUTE_GROUP = PACKAGE_PREFIX + ".core.ARouterLoadGroup";

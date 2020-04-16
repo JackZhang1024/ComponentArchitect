@@ -94,7 +94,7 @@ dependencies {
     implementation project(":common")
     // 添加注解
     implementation project(":annotation")
-    // 处理注解
+    // 处理注解 扫描注解所注解的元素 然后利用注解处理器生成相应的文件
     annotationProcessor project(":compiler")
     // 第三方库 最简洁的方法 类似与lambda方法
     support.each { k, v-> implementation v }
