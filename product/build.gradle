@@ -29,6 +29,12 @@ android {
         // 为什么需要定义这个？因为src代码中有可能需要用到跨模块交互 如果是组件化模块显然不行 集成化可以
         // 注意：不能在android根节点 只能在defaultConfig或 buildTypes 节点下
         buildConfigField("Boolean", "isRelease", String.valueOf(isRelease))
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName : project.getName(), packageNameForAPT: packageNameForAPT]
+            }
+        }
     }
 
     buildTypes {
@@ -64,6 +70,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // 添加注解
+    implementation project(":annotation")
+    // 处理注解
+    annotationProcessor project(":compiler")
     // 公共基础库
     implementation project(":common")
     support.each { k, v-> implementation v }

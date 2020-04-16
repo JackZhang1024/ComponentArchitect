@@ -1,2 +1,2 @@
-include ':app', ':order', ':personal', ':product', ':common', ':annotation', ':compiler'
+include ':app', ':order', ':personal', ':product', ':common', ':annotation', ':compiler', ':arouter_api'
 rootProject.name='ComponentArchitect'

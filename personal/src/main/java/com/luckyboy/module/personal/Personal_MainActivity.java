@@ -6,9 +6,11 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.luckyboy.annotation.ARouter;
 import com.luckyboy.common.RouterManager;
 import com.luckyboy.common.base.BaseActivity;
 
+@ARouter(group = "personal", path = "/personal/Personal_MainActivity")
 public class Personal_MainActivity extends BaseActivity {
 
     @Override
@@ -23,9 +25,9 @@ public class Personal_MainActivity extends BaseActivity {
 //            Intent intent = new Intent(this, clazz);
 //            startActivity(intent);
 
-            Class clazz = RouterManager.getInstance().loadClass("product", "com.luckyboy.module.product.Product_MainActivity");
-            Intent intent = new Intent(this, clazz);
-            startActivity(intent);
+//            Class clazz = RouterManager.getInstance().loadClass("product", "com.luckyboy.module.product.Product_MainActivity");
+//            Intent intent = new Intent(this, clazz);
+//            startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,9 +39,9 @@ public class Personal_MainActivity extends BaseActivity {
 //            Intent intent = new Intent(this, clazz);
 //            startActivity(intent);
 
-            Class clazz = RouterManager.getInstance().loadClass("app", "com.luckyboy.componentarchitect.MainActivity");
-            Intent intent = new Intent(this, clazz);
-            startActivity(intent);
+//            Class clazz = RouterManager.getInstance().loadClass("app", "com.luckyboy.componentarchitect.MainActivity");
+//            Intent intent = new Intent(this, clazz);
+//            startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }

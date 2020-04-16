@@ -7,6 +7,9 @@ ext {
     // isRelease true  集成化（各个模块不能独立运行的）
     // isRelease false 组件化（各个模块都是可以独立运行的）
     isRelease = true
+
+    // 用户存放APT自动生成的文件包名
+    packageNameForAPT = "com.luckyboy.module.apt"
     // 建立Map存储 对象名 key都可以自定义 groovy糖果语法 非常灵活
     androidId = [
             compileSdkVersion: 29,
